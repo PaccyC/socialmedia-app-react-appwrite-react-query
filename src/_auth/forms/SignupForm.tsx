@@ -15,6 +15,7 @@ import { Input } from "../../components/ui/input"
 import { z } from "zod"
 import Loader from "../../components/ui/shared/Loader"
 import { Link } from "react-router-dom"
+import { createUserAccount } from "../../lib/appwrite/api"
 
 
 const SignupForm = () => {
@@ -29,9 +30,13 @@ const isLoading = false;
     },
   })
 
-  function onSubmit(values: z.infer<typeof signupFormValidation>) {
+  async function onSubmit(values: z.infer<typeof signupFormValidation>) {
  
-    console.log(values)
+   const newUser = await createUserAccount(values)
+     console.log(newUser);
+     console.log(import.meta.env.APPWRITE_PROJECT_ID);
+     
+   
   }
 
   return (
