@@ -1,8 +1,8 @@
 import { Account,Client,Avatars,Databases,Storage } from 'appwrite'
 
 export const appWriteConfig={
-    projectId: import.meta.env.APPWRITE_PROJECT_ID,
-    url:  import.meta.env.APPWRITE_URL,
+    projectId: import.meta.env.VITE_APPWRITE_PROJECT_ID,
+    url:  import.meta.env.VITE_APPWRITE_URL,
 }
 
 
