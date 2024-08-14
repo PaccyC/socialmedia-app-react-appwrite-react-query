@@ -58,6 +58,9 @@ export async function signInUser(user:{email:string, password:string}){
     try {
         
         const session= await account.createEmailPasswordSession(user.email,user.password);
+        if (!session) {
+            throw new Error("Session creation failed");
+        }
         return session;
     } catch (error) {
         console.log(error);
@@ -68,8 +71,13 @@ export async function signInUser(user:{email:string, password:string}){
 export async function getCurrentUser (){
     try {
         
-        const currentAccount=await account.get();
-        if(!currentAccount) throw  Error
+        const currentAccount= await account.get();
+        if(!currentAccount) {
+            console.log("Account not found");
+            
+            throw new Error("No active session found")
+        
+        }
         const currentUser= await databases.listDocuments(
             appWriteConfig.databaseId,
             appWriteConfig.usersCollectionId,

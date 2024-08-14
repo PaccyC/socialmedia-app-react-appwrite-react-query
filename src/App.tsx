@@ -4,7 +4,7 @@ import SignupForm from './_auth/forms/SignupForm'
 import RootLayout from './_root/RootLayout'
 import { Home } from './_root/pages'
 import './index.css'
-import { BrowserRouter as Router , Routes,Route } from 'react-router-dom'
+import { Routes,Route } from 'react-router-dom'
 
 import { Toaster } from "./components/ui/toaster"
 
@@ -12,7 +12,7 @@ function App() {
 
   return (
 
-    <Router>
+  
 
     <main className='flex h-screen'>
 
@@ -29,7 +29,7 @@ function App() {
       </Routes>
       <Toaster/>
     </main>
-    </Router>
+    
 
   )
 }
