@@ -1,6 +1,7 @@
 
-export type User={
+export type NewUser={
     name: string;
     email: string;
     password: string;
+    username?: string
 }

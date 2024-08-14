@@ -5,6 +5,9 @@ import RootLayout from './_root/RootLayout'
 import { Home } from './_root/pages'
 import './index.css'
 import { BrowserRouter as Router , Routes,Route } from 'react-router-dom'
+
+import { Toaster } from "./components/ui/toaster"
+
 function App() {
 
   return (
@@ -24,6 +27,7 @@ function App() {
         <Route index path='/' element={<Home/>}/>
         </Route>
       </Routes>
+      <Toaster/>
     </main>
     </Router>
 
