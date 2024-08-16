@@ -12,3 +12,10 @@ export const signupFormValidation = z.object({
         message: "Password must be at least 8 characters"
     })
   })
+
+  export const signinFormValidation= z.object({
+    email: z.string().email({message: "Email must be a valid email address"}),
+    password: z.string().min(8, {
+        message: "Password must be at least 8 characters"
+    })
+  })

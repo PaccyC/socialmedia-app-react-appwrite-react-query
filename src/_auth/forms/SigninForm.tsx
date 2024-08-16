@@ -1,5 +1,5 @@
 
-import { signupFormValidation } from "../../lib" 
+import { signinFormValidation } from "../../lib" 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "../../components/ui/button"
@@ -15,23 +15,51 @@ import { Input } from "../../components/ui/input"
 import { z } from "zod"
 import Loader from "../../components/ui/shared/Loader"
 import { Link } from "react-router-dom"
-
+import { useToast } from "../../components/ui/use-toast"
+import { useCreateUserAccountMutation, useSignInUserMutation } from "../../lib/react-query/queriesAndMutations"
+import { useUserContext } from "../../context/AuthContext"
+import { useNavigate } from 'react-router-dom'
 
 const SigninForm = () => {
-const isLoading = false;
-  const form = useForm<z.infer<typeof signupFormValidation>>({
-    resolver: zodResolver(signupFormValidation),
+const navigate= useNavigate();  
+const {toast}= useToast()
+const {checkAuthUser,isLoading:isUserLoading} = useUserContext();
+const {mutateAsync:signInUser,isPending:isSigningIn}= useSignInUserMutation()
+
+
+  const form = useForm<z.infer<typeof signinFormValidation>>({
+    resolver: zodResolver(signinFormValidation),
     defaultValues: {
-      name:"",
-      username: "",
       email:"",
       password:""
     },
   })
 
-  function onSubmit(values: z.infer<typeof signupFormValidation>) {
+  async function onSubmit(values: z.infer<typeof signinFormValidation>) {
  
-    console.log(values)
+  const session = await signInUser({
+    email: values.email,
+    password: values.password,
+   });
+
+   if(!session) {
+     return toast({
+      title: "Sign in failed: Please try again",
+    })
+   }
+
+   const isLoggedIn = await checkAuthUser();
+
+   if(isLoggedIn){
+    form.reset();
+    navigate("/");
+   }
+  
+   else {
+    return  toast({
+      title: "Sign up failed: Please try again",
+    })
+   }
   }
 
   return (
@@ -48,34 +76,7 @@ const isLoading = false;
 
         <form onSubmit={form.handleSubmit(onSubmit)}
          className="flex flex-col gap-5 mt-4 w-full">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input type="text" {...field} className="shad-input"/>
-                </FormControl>
-                
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-           <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input type="text" {...field} className="shad-input"/>
-                </FormControl>
-                
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
            <FormField
             control={form.control}
             name="email"
@@ -108,16 +109,16 @@ const isLoading = false;
           
             className=" shad-button_primary">
               
-              {isLoading ? (
+              {isSigningIn ? (
                 <div className=" flex-center gap-2">
                 <Loader/> Loading...
                 </div>
-              ):"Sign Up"}
+              ):"Sign In"}
               </Button>
         <p className="text-small-regular text-light-2 text-center mt-2">
-          Already have an account? 
-          <Link to='/signin' className=" text-primary-500 text-small-semibold ml-1">
-            Login
+           Doesn't have an account ? 
+          <Link to='/signup' className=" text-primary-500 text-small-semibold ml-1">
+            Signup
           </Link>
         </p>
         </form>
