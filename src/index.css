@@ -238,9 +238,9 @@
   }
 
   /* Topbar */
-  .topbar {
+  /* .topbar {
     @apply sticky top-0 z-50 md:hidden bg-dark-2 w-full;
-  }
+  } */
 
   /* User card */
   .user-card {

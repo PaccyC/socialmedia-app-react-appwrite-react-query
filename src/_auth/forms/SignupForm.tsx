@@ -23,10 +23,10 @@ import { useNavigate } from 'react-router-dom'
 const SignupForm = () => {
 const navigate= useNavigate();  
 const {toast}= useToast()
-const {checkAuthUser,isLoading:isUserLoading} = useUserContext();
+const {checkAuthUser} = useUserContext();
 
 const {mutateAsync:createUserAccount,isPending:isCreatingUser}= useCreateUserAccountMutation()
-const {mutateAsync:signInUser,isPending:isSigningIn}= useSignInUserMutation()
+const {mutateAsync:signInUser}= useSignInUserMutation()
 
 
   const form = useForm<z.infer<typeof signupFormValidation>>({

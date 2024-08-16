@@ -16,7 +16,7 @@ import { z } from "zod"
 import Loader from "../../components/ui/shared/Loader"
 import { Link } from "react-router-dom"
 import { useToast } from "../../components/ui/use-toast"
-import { useCreateUserAccountMutation, useSignInUserMutation } from "../../lib/react-query/queriesAndMutations"
+import { useSignInUserMutation } from "../../lib/react-query/queriesAndMutations"
 import { useUserContext } from "../../context/AuthContext"
 import { useNavigate } from 'react-router-dom'
 
@@ -24,7 +24,7 @@ const SigninForm = () => {
 const navigate= useNavigate();  
 const {toast}= useToast()
 const {checkAuthUser,isLoading:isUserLoading} = useUserContext();
-const {mutateAsync:signInUser,isPending:isSigningIn}= useSignInUserMutation()
+const {mutateAsync:signInUser}= useSignInUserMutation()
 
 
   const form = useForm<z.infer<typeof signinFormValidation>>({
@@ -68,10 +68,10 @@ const {mutateAsync:signInUser,isPending:isSigningIn}= useSignInUserMutation()
         <div className=" sm:w-420  flex items-center flex-col">
           <img src="/assets/images/logo.svg" alt="logo" />
           <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
-            Create New Account
+            Login to your Account
             </h2>
             <p className="text-light-3 small-medium md:base-regular mt-2">
-              To use Snapgram, please enter your details
+              Welcome back!!! Please enter your details to continue
             </p>
 
         <form onSubmit={form.handleSubmit(onSubmit)}
@@ -109,7 +109,7 @@ const {mutateAsync:signInUser,isPending:isSigningIn}= useSignInUserMutation()
           
             className=" shad-button_primary">
               
-              {isSigningIn ? (
+              {isUserLoading ? (
                 <div className=" flex-center gap-2">
                 <Loader/> Loading...
                 </div>
