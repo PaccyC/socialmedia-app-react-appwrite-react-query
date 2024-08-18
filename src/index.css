@@ -253,13 +253,7 @@
 @layer components {
   /* SHADCN COMPONENTS */
   /* Form */
-  .shad-form_label {
-    @apply text-white !important;
-  }
 
-  .shad-form_message {
-    @apply text-red !important;
-  }
 
   .shad-input {
     @apply h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 !important;
