@@ -27,9 +27,18 @@ const FileUploader = ({fieldChange,mediaUrl}:Props) => {
          className=' flex flex-col flex-center bg-dark-3 rounded-xl cursor-pointer' >
       <input {...getInputProps()}  className=' cursor-pointer'/>
       {
-        fileUrl ? <div>
-            test 1
+        fileUrl ? 
+        <>
+       
+        <div className=' flex flex-1 justify-center w-full p-5 lg:p-10'>
+            <img 
+              src={fileUrl} 
+              alt="uploader-image"
+              className='h-80 lg:h-[480px] w-full rounded-[24px] object-cover object-top '
+              />
         </div>
+        <p className='text-light-4 text-center small-regular w-full p-4 border-t border-t-dark-4'>Click or drag a photot to replace</p>
+        </>
              : 
         <div className=' flex-col flex-center h-80 p-7 lg:h-[621px]'>
          <img 

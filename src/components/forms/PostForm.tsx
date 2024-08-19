@@ -6,7 +6,6 @@ import { Button } from "../../components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,28 +14,54 @@ import {
 import { Input } from "../../components/ui/input" 
 import { Textarea } from "../ui/textarea"
 import FileUploader from "../ui/shared/FileUploader"
-import { FormInput } from "lucide-react"
+import { PostFormValidation } from "../../lib"
+import { Models } from "appwrite"
+import { useCreatePost } from "../../lib/react-query/queriesAndMutations"
+import { useUserContext } from "../../context/AuthContext"
+import { useToast } from "../ui/use-toast"
+import { useNavigate } from "react-router-dom"
 
 
-const formSchema = z.object({
-  caption: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-})
-const PostForm = ({post}:any) => {
+type PostFormProps ={
+  post?: Models.Document
+  action: "Create" | "Update";
+}
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+
+const PostForm = ({post,action}:PostFormProps) => {
+
+  const { mutateAsync:createPost,isPending:isCreatingPost}= useCreatePost();
+  const {user}= useUserContext();
+  const {toast}= useToast();
+  const navigate= useNavigate()
+
+  const form = useForm<z.infer<typeof PostFormValidation>>({
+    resolver: zodResolver(PostFormValidation),
     defaultValues: {
-      caption: "",
+      caption: post ? post?.caption :"",
+      file:[],
+      location: post ? post?.location : "",
+      tags: post ? post?.tags.join(',') : "",
     },
   })
  
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof PostFormValidation>) {
+  
+    const newPost= await createPost(
+      {
+       ...values,
+       userId:user.id
+      }
+    )
+
+    if(!newPost){
+      return toast({
+        title: `${action} post failed: Please try again`,
+      })
+    }
+
+    navigate("/");
   }
   return (
     <Form {...form}>
@@ -64,6 +89,7 @@ const PostForm = ({post}:any) => {
             <FormControl>
               <FileUploader
                 fieldChange= {field.onChange}
+                mediaUrl={post?.imageUrl}
              
               />
             </FormControl>
@@ -79,7 +105,7 @@ const PostForm = ({post}:any) => {
           <FormItem>
             <FormLabel className=" text-white">Add Location</FormLabel>
             <FormControl>
-              <Input className="h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 "/>
+              <Input {...field} className="h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 "/>
             </FormControl>
             
             <FormMessage className=" text-red" />
@@ -94,6 +120,7 @@ const PostForm = ({post}:any) => {
             <FormLabel className=" text-white">Add Tags (separated by comma ",")</FormLabel>
             <FormControl>
               <Input 
+              {...field}
               placeholder="Python, TypeScript, etc..."
               className="h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 "/>
             </FormControl>
