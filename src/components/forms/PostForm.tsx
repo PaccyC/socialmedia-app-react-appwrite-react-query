@@ -30,7 +30,7 @@ type PostFormProps ={
 
 const PostForm = ({post,action}:PostFormProps) => {
 
-  const { mutateAsync:createPost,isPending:isCreatingPost}= useCreatePost();
+  const { mutateAsync:createPost}= useCreatePost();
   const {user}= useUserContext();
   const {toast}= useToast();
   const navigate= useNavigate()
