@@ -8,7 +8,7 @@ interface PostCardProps{
     post:Models.Document
 }
 const PostCard = ({post}:PostCardProps) => {
-  console.log(post.creator.$id);
+  
 
   const {user} =useUserContext()
 
@@ -49,7 +49,17 @@ const PostCard = ({post}:PostCardProps) => {
       <Link to={`/posts/${post.$id}`}>
       <div className=" small-medium lg:base-medium py-5">
         <p>{post.caption}</p>
+        <ul className=" flex gap-1 mt-2">
+          {post.tags.map((tag:string)=>(
+            <li key={tag} className="text-light-3">
+              #{tag}
+            </li>
+          ))}
+        </ul>
       </div>
+      <img src={post.image} 
+       className="h-64 xs:h-[400px] lg:h-[450px] w-full rounded-[24px] object-cover mb-5"
+      />
       </Link>
     </div>
   )
