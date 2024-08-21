@@ -2,14 +2,31 @@ import { useState } from "react"
 import { Input } from "../../components/ui/input"
 import SearchResults from "../../components/ui/shared/SearchResults";
 import GridPostList from "../../components/ui/shared/GridPostList";
+import { useGetPost, useSearchPost } from "../../lib/react-query/queriesAndMutations";
+import useDebounce from "../../hooks/useDebounce";
+import Loader from "../../components/ui/shared/Loader";
 
 const Explore = () => {
   const [searchValue,setSearchValue]= useState("");
+  const debouncedValue= useDebounce(searchValue,500);
 
-  // const posts= [];
-  // const shouldShowSearchResults= searchValue !== "";
-  // const shouldShowPosts= !shouldShowSearchResults && posts.pages.every(
-  //   (item)=>item.documents.length ===0)
+  const {data:posts,fetchNextPage,hasNextPage,}= useGetPost()
+  const {data:searchedPosts,isFetching:isSearchFetching}= useSearchPost(debouncedValue)
+
+
+  console.log(posts);
+  
+  if(!posts){
+    return (
+      <div className=" flex-center w-full h-full">
+        <Loader/>
+      </div>
+    )
+  }
+  
+  const shouldShowSearchResults= searchValue !== "";
+  const shouldShowPosts= !shouldShowSearchResults && posts.pages.every(
+    (item)=>item.documents.length ===0)
   return (
     <div className="  flex flex-col flex-1 items-center overflow-scroll py-10 px-5 md:p-14 custom-scrollbar">
       <div className=" max-w-5xl flex flex-col items-center w-full gap-6 md:gap-9">
@@ -44,7 +61,7 @@ const Explore = () => {
         </div>
       </div>
 
-      {/* <div className=" flex flex-wrap gap-9">
+      <div className=" flex flex-wrap gap-9 w-full max-w-5xl">
        {shouldShowSearchResults ? 
       <SearchResults/>: shouldShowPosts ?(
         <p className=" text-light-4 mt-10 text-center w-full">End Of Posts</p>
@@ -54,7 +71,7 @@ const Explore = () => {
         ))
       )
       }
-      </div> */}
+      </div>
 
     </div>
   )
