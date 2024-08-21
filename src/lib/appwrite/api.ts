@@ -371,3 +371,47 @@ export const deletePost = async(postId:string,imageId:string)=>{
         
     }
 }
+
+// fetching posts for expolore page
+
+export async function getInfinitePosts({pageParam}:{pageParam:number}){
+
+    const queries: any[] = [Query.orderDesc("$updatedAt"),Query.limit(10)]
+
+    if(pageParam){
+        queries.push(Query.cursorAfter(pageParam.toString()));
+    }
+
+    try {
+        
+        const posts= await databases.listDocuments(
+            appWriteConfig.databaseId,
+            appWriteConfig.postsCollectionId,
+            queries
+        )
+
+        if(!posts) throw Error;
+        return posts;
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+export async function searchPosts(searchTerm:string){
+
+    try {
+        
+        const posts= await databases.listDocuments(
+            appWriteConfig.databaseId,
+            appWriteConfig.postsCollectionId,
+            [Query.search("caption",searchTerm)]
+        )
+
+        if(!posts) throw Error;
+        return posts;
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
