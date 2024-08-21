@@ -10,7 +10,7 @@ interface Props{
 const FileUploader = ({fieldChange,mediaUrl}:Props) => {
 
     const [files, setFiles] = useState<File[]>([]);
-    const [fileUrl,setFileUrl]= useState('');
+    const [fileUrl,setFileUrl]= useState(mediaUrl);
     const onDrop = useCallback((acceptedFiles:FileWithPath[] )=>{
         setFiles(acceptedFiles)
         fieldChange(acceptedFiles);
