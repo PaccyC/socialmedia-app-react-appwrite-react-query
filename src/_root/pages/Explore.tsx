@@ -18,6 +18,7 @@ const Explore = () => {
 
   useEffect(()=>{
 
+    if(inView && !searchValue) fetchNextPage();
   },[inView,searchValue])
   
   if(!posts){
