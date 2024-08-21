@@ -16,7 +16,7 @@ import { Textarea } from "../ui/textarea"
 import FileUploader from "../ui/shared/FileUploader"
 import { PostFormValidation } from "../../lib"
 import { Models } from "appwrite"
-import { useCreatePost } from "../../lib/react-query/queriesAndMutations"
+import { useCreatePost, useUpdatePost } from "../../lib/react-query/queriesAndMutations"
 import { useUserContext } from "../../context/AuthContext"
 import { useToast } from "../ui/use-toast"
 import { useNavigate } from "react-router-dom"
@@ -30,7 +30,10 @@ type PostFormProps ={
 
 const PostForm = ({post,action}:PostFormProps) => {
 
-  const { mutateAsync:createPost}= useCreatePost();
+  const { mutateAsync:createPost,isPending:isCreatingPost}= useCreatePost();
+
+  const { mutateAsync:updatePost,isPending:isEditingPost}= useUpdatePost();
+  
   const {user}= useUserContext();
   const {toast}= useToast();
   const navigate= useNavigate()
@@ -47,6 +50,20 @@ const PostForm = ({post,action}:PostFormProps) => {
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof PostFormValidation>) {
+
+    if (post && action === "Update"){
+      const updatedPost= await updatePost({
+        ...values,
+        postId:post.$id,
+        image:post.image,
+        imageId:post.imageId
+      })
+
+      if(!updatedPost){
+        toast({title:"Please try again"})
+      }
+      return navigate(`/posts/${post.$id}`)
+    }
   
     const newPost= await createPost(
       {
@@ -89,7 +106,7 @@ const PostForm = ({post,action}:PostFormProps) => {
             <FormControl>
               <FileUploader
                 fieldChange= {field.onChange}
-                mediaUrl={post?.imageUrl}
+                mediaUrl={post?.imageUrl || ""}
              
               />
             </FormControl>
@@ -138,10 +155,12 @@ const PostForm = ({post,action}:PostFormProps) => {
           Cancel
         </Button>
         <Button 
+        disabled={isEditingPost || isCreatingPost}
          type="submit"
          className="bg-primary-500 hover:bg-primary-500 text-light-1 flex gap-2 whitespace-nowrap"
          >
-          Submit
+          {isCreatingPost || isEditingPost && "Loading..."}
+          {action} Post
         </Button>
       </div>
     </form>
