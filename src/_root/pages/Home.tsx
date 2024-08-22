@@ -7,7 +7,7 @@ import TopCreators from "./TopCreators";
 const Home = () => {
   
   
-  const {data:posts,isPending:isPostLoading,isError}= useGetRecentPosts();
+  const {data:posts,isPending:isPostLoading}= useGetRecentPosts();
 
   
   return (
