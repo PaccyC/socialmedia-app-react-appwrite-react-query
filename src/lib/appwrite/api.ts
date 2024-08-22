@@ -415,3 +415,20 @@ export async function searchPosts(searchTerm:string){
         
     }
 }
+
+export async function getUsers(){
+    try {
+        
+        const users= await databases.listDocuments(
+            appWriteConfig.databaseId,
+            appWriteConfig.usersCollectionId,
+            [Query.orderDesc("$createdAt"),Query.limit(10)]
+            
+        )
+        if(!users) throw Error;
+        return users;
+    } catch (error) {
+        console.log(error);
+        
+    }
+}

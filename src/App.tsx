@@ -2,7 +2,7 @@ import AuthLayout from './_auth/AuthLayout'
 import SigninForm from './_auth/forms/SigninForm'
 import SignupForm from './_auth/forms/SignupForm'
 import RootLayout from './_root/RootLayout'
-import { AllUsers, CreatePost, Explore, Home, PostDetails, Saved, UpdatePost, UpdateProfile } from './_root/pages'
+import { AllUsers, CreatePost, Explore, Home, PostDetails, Profile, Saved, UpdatePost, UpdateProfile } from './_root/pages'
 import './index.css'
 import { Routes,Route } from 'react-router-dom'
 
@@ -32,6 +32,7 @@ function App() {
         <Route path='/update-post/:id' element={<UpdatePost/>}/>
         <Route path='/posts/:id' element={<PostDetails/>}/>
         <Route path='/update-profile/:id' element={<UpdateProfile/>}/>
+        <Route path='/profile/:id' element={<Profile/>}/>
         </Route>
       </Routes>
       <Toaster/>

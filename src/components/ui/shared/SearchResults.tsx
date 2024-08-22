@@ -1,4 +1,4 @@
-import { Models } from "appwrite";
+
 import Loader from "./Loader";
 import GridPostList from "./GridPostList";
 
@@ -6,7 +6,7 @@ import GridPostList from "./GridPostList";
 
 interface SearchResultsProps{
     isSearchFetching: boolean;
-    searchedPosts: Models.Document[];
+    searchedPosts: any;
 }
 const SearchResults = ({isSearchFetching,searchedPosts}:SearchResultsProps) => {
 
@@ -16,7 +16,7 @@ const SearchResults = ({isSearchFetching,searchedPosts}:SearchResultsProps) => {
         )
     }
 
-    if(searchedPosts && searchedPosts.documents.length > 0){
+    if(searchedPosts && searchedPosts.do.length > 0){
         return (
             <GridPostList posts={searchedPosts.documents} />
         )
