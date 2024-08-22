@@ -2,6 +2,7 @@ import { Models } from "appwrite";
 import Loader from "../../components/ui/shared/Loader";
 import { useGetRecentPosts } from "../../lib/react-query/queriesAndMutations";
 import PostCard from "../../components/ui/shared/PostCard";
+import TopCreators from "./TopCreators";
 
 const Home = () => {
   
@@ -29,6 +30,7 @@ const Home = () => {
              )}
         </div>
       </div>
+      <TopCreators/>
     </div>
   )
 }

@@ -11,7 +11,7 @@ const GridTopCreatorsList = ({users}:GridTopCreatorsListProps) => {
   return (
     <div className=" w-full gap-7 grid grid-cols-2 overflow-scroll custom-scrollbar">
         {users.documents.map((user:Models.Document)=>(
-        <Link to={`users/${user.$id}`} className=" min-w-[190px] h-[190px] rounded-lg border border-light-4 cursor-pointer">
+        <Link to={`profile/${user.$id}`} className=" min-w-[190px] h-[190px] rounded-2xl border  border-dark-4 cursor-pointer">
           <div className=" flex flex-col   items-center py-4 px-6">
             <img 
             src={user.imageUrl} 
