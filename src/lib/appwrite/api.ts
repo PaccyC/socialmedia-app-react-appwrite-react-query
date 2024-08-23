@@ -1,6 +1,6 @@
 import { ID, Query } from "appwrite";
-import { NewPost, NewUser, UpdatePost } from "../../types";
-import { account, appWriteConfig, avatars, databases, storage } from "./config";
+import { NewPost, NewUser, UpdatePost, UserProfileResponse } from "../../types";
+import { account, appWriteConfig, avatars, client, databases, storage } from "./config";
 
 export async function createUserAccount(user:NewUser){
      
@@ -450,3 +450,24 @@ export async function getUserPosts(userId:string){
         
     }
 }
+export const getUserProfile = async (userId: string): Promise<UserProfileResponse | null> => {
+    try {
+        const response = await databases.getDocument(
+            appWriteConfig.databaseId,
+            appWriteConfig.usersCollectionId,
+            userId
+        );
+
+        return {
+            userId: response.$id,
+            username: response.username,
+            name: response.name,
+            bio: response.bio,
+            imageUrl: response.imageUrl
+        };
+    } catch (error) {
+        console.error('Error fetching user profile:', error);
+        return null;
+    }
+};
+

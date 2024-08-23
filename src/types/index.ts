@@ -52,3 +52,11 @@ export type UpdatePost={
     tags?:string;
 
 }
+
+export type UserProfileResponse={
+    userId:string;
+    username: string;
+    name:string;
+    bio: string;
+    imageUrl:string;
+}

@@ -27,3 +27,18 @@ export const signupFormValidation = z.object({
     tags:z.string()
 
   })
+
+
+  export const EditUserFormValidation = z.object({
+    file:z.custom<File[]>(),
+    name:z.string().min(6,{
+      message: "Name must be at least 5 characters"
+    }),
+    usernme:z.string().min(6,{
+      message: "Name must be at least 5 characters"
+    }),
+    email:z.string().email({
+      message: "Email must be at  a valid email address"
+    }),
+    bio:z.string().max(60).optional()
+  })
