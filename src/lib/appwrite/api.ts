@@ -432,3 +432,21 @@ export async function getUsers(){
         
     }
 }
+
+export async function getUserPosts(userId:string){
+
+    try {
+        
+        const posts= await databases.listDocuments(
+            appWriteConfig.databaseId,
+            appWriteConfig.postsCollectionId,
+            [Query.equal("creator",userId),Query.orderDesc("$createdAt")]
+        )
+
+        if(!posts) throw Error;
+        return posts;
+    } catch (error) {
+        console.log(error);
+        
+    }
+}

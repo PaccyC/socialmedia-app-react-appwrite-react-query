@@ -1,13 +1,16 @@
 import { Button } from "../../components/ui/button";
 import ProfileTabs from "../../components/ui/shared/ProfileTabs";
 import { useUserContext } from "../../context/AuthContext";
-import { useGetCurrentUser } from "../../lib/react-query/queriesAndMutations";
+import { useGetCurrentUser, useGetUserPosts } from "../../lib/react-query/queriesAndMutations";
 
 const Profile = () => {
-  const { user } = useUserContext();
 
-  const {data:currentUser}= useGetCurrentUser();
+  const {user}= useUserContext();
+  const{data:currentUser}= useGetCurrentUser();
+  const {data:posts}= useGetUserPosts(user.id);
 
+  console.log(posts);
+  
   return (
     <div className="flex flex-1">
       <div className="common-container">
@@ -116,7 +119,7 @@ const Profile = () => {
         {/* Tabs for the Posts,reels,and tagged */}
         
 
-        <ProfileTabs/>
+        <ProfileTabs posts={posts}/>
      
       </div>
     </div>

@@ -4,7 +4,7 @@ import { useGetUsers } from "../../lib/react-query/queriesAndMutations";
 
 
 const AllUsers = () => {
-  const {data:users,isLoading:isUserLoading}= useGetUsers();
+  const {data:users}= useGetUsers();
   console.log(users);
   
   return (
