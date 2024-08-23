@@ -85,7 +85,7 @@
     @apply flex justify-between items-center;
   }
 
-  .flex-start {
+  .flex-start {    
     @apply flex justify-start items-center;
   }
 
