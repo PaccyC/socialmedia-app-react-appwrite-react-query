@@ -13,21 +13,31 @@ import {
 } from "../../components/ui/form"
 import { Input } from "../../components/ui/input" 
 
-import { PostFormValidation } from "../../lib"
-
-const EditProfileForm = () => {
-
+import { EditUserFormValidation } from "../../lib"
+import { Models } from "appwrite"
 
 
-  const form = useForm<z.infer<typeof PostFormValidation>>({
-    resolver: zodResolver(PostFormValidation),
+interface EditProfileFormProps{
+    user?: Models.Document,
+}
+
+const EditProfileForm = ({user}:EditProfileFormProps) => {
+
+
+
+  const form = useForm<z.infer<typeof EditUserFormValidation>>({
+    resolver: zodResolver(EditUserFormValidation),
     defaultValues: {
-      
+    //   file:[],
+      name: user ? user.name: "",
+      username:user ? user.username: "",
+      email:user ? user.email: "",
+      bio:user ? user.bio: "",
     },
   })
  
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof PostFormValidation>) {
+  async function onSubmit(values: z.infer<typeof EditUserFormValidation>) {
 
    
   }
@@ -71,7 +81,7 @@ const EditProfileForm = () => {
           <FormItem>
             <FormLabel className=" text-white">Email</FormLabel>
             <FormControl>
-              <Input {...field} className="h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 "/>
+              <Input {...field} type="email" className="h-12 bg-dark-4 border-none placeholder:text-light-4 focus-visible:ring-1 focus-visible:ring-offset-1 ring-offset-light-3 "/>
             </FormControl>
             
             <FormMessage className=" text-red" />

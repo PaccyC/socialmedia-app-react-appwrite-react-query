@@ -34,7 +34,7 @@ export const signupFormValidation = z.object({
     name:z.string().min(6,{
       message: "Name must be at least 5 characters"
     }),
-    usernme:z.string().min(6,{
+    username:z.string().min(6,{
       message: "Name must be at least 5 characters"
     }),
     email:z.string().email({
