@@ -3,7 +3,7 @@ import { NewPost, NewUser, UpdatePost } from "../../types";
 import { account, appWriteConfig, avatars, databases, storage } from "./config";
 
 export async function createUserAccount(user:NewUser){
-
+     
     try {
         
         const newAccount= await account.create(

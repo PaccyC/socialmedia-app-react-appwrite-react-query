@@ -1,8 +1,12 @@
 import { Button } from "../../components/ui/button";
+import ProfileTabs from "../../components/ui/shared/ProfileTabs";
 import { useUserContext } from "../../context/AuthContext";
+import { useGetCurrentUser } from "../../lib/react-query/queriesAndMutations";
 
 const Profile = () => {
   const { user } = useUserContext();
+
+  const {data:currentUser}= useGetCurrentUser();
 
   return (
     <div className="flex flex-1">
@@ -14,22 +18,27 @@ const Profile = () => {
             alt="user-profile-image"
             height={150}
             width={150}
-            className="rounded-full object-cover"
+            className="rounded-full self-start py-6 object-cover"
           />
 
           <div className="flex flex-col py-6">
             <div className="flex gap-6 items-center">
               <h2 className="md:h1-semibold h2-bold">Lewis Hamilton</h2>
-              <Button className="bg-dark-3 py-3 px-5 text-light-2 font-semibold text-lg flex items-center">
-                <img
-                  src="/assets/icons/edit-yellow.svg"
-                  width={15}
-                  height={15}
-                  alt="edit-icon"
-                  className="mr-2 fill-current text-yellow-400"
-                />
-                Edit Profile
-              </Button>
+              {currentUser?.$id == user.id && (
+                 <Button className="bg-dark-3 py-3 px-5 text-light-2 font-semibold text-lg flex items-center">
+                 <img
+                   src="/assets/icons/edit-yellow.svg"
+                   width={15}
+                   height={15}
+                   alt="edit-icon"
+                   className="mr-2 fill-current text-yellow-400"
+                 />
+                 Edit Profile
+               </Button>
+              )
+              
+              }
+             
             </div>
             <p className="text-xl text-light-3">@Lewishamilton</p>
             <div className="flex w-[60%] justify-between mt-3">
@@ -103,6 +112,12 @@ const Profile = () => {
             </div>
           </div>
         </div>
+
+        {/* Tabs for the Posts,reels,and tagged */}
+        
+
+        <ProfileTabs/>
+     
       </div>
     </div>
   );
