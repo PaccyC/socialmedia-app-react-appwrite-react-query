@@ -1,6 +1,13 @@
-import EditProfileSIdebarPosts from "./EditProfileSIdebarPosts"
+import { useUserContext } from "../../../context/AuthContext"
+import { useGetUserPosts } from "../../../lib/react-query/queriesAndMutations"
+import EditProfileSidebarPosts from "./EditProfileSIdebarPosts"
 
 const EditProfileSidebar = () => {
+
+  const {user}=useUserContext();
+  const {data:posts}= useGetUserPosts(user.id);
+  console.log(posts);
+  
   return (
   <div className=" min-w-[420px] h-full border-l-2 border-dark-4  justify-center py-8  px-12">
     <div className=" flex flex-col gap-9">
@@ -21,7 +28,7 @@ const EditProfileSidebar = () => {
         <h3 className="font-semibold text-[24px] self-start">Top posts by you</h3>
 
         {/* Posts */}
-        <EditProfileSIdebarPosts/>
+        <EditProfileSidebarPosts posts={posts?.documents}/>
        </div>
       </div>
     </div>
