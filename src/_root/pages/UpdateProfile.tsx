@@ -5,6 +5,7 @@ import { useGetCurrentUser } from "../../lib/react-query/queriesAndMutations";
 const UpdateProfile = () => {
 
   const {data:user}= useGetCurrentUser();
+  
   console.log(user);
   
   return (
@@ -23,7 +24,7 @@ const UpdateProfile = () => {
             </div>
           </div>
           </div>
-          
+
         {/* Edit Profile Form */}
           <EditProfileForm user={user}/>
         </div>
