@@ -45,7 +45,7 @@ const FileUploader = ({fieldChange,mediaUrl}:Props) => {
               className='h-80 lg:h-[480px] w-full rounded-[24px] object-cover object-top '
               />
         </div>
-        <p className='text-light-4 text-center small-regular w-full p-4 border-t border-t-dark-4'>Click or drag a photot to replace</p>
+        <p className='text-light-4 text-center small-regular w-full p-4 border-t border-t-dark-4'>Click or drag a photos to replace</p>
         </>
              : 
         <div className=' flex-col flex-center h-80 p-7 lg:h-[621px]'>

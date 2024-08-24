@@ -1,5 +1,5 @@
-import { ID, Query } from "appwrite";
-import { NewPost, NewUser, UpdatePost, UserProfileResponse } from "../../types";
+import { ID, Models, Query } from "appwrite";
+import { NewPost, NewUser, UpdatePost, UpdateUser, UserProfileResponse } from "../../types";
 import { account, appWriteConfig, avatars, client, databases, storage } from "./config";
 
 export async function createUserAccount(user:NewUser){
@@ -470,4 +470,80 @@ export const getUserProfile = async (userId: string): Promise<UserProfileRespons
         return null;
     }
 };
+
+export const getUsersTopPosts = async (userId:string)=>{
+    try {
+        
+        const posts= await databases.listDocuments(
+            appWriteConfig.databaseId,
+            appWriteConfig.postsCollectionId,
+            [Query.equal("creator",userId) ]
+        )
+        if (!posts) throw new Error("No posts found");
+
+        const sortedPosts= posts.documents.sort((a:any,b:any)=> b.likes.length - a.likes.length);
+
+
+        return sortedPosts.slice(0,3);
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+
+export const updateUser = async (user:UpdateUser)=>{
+  
+        
+        const hasFileToUpdate= user.file.length > 0;
+        try {
+    
+            let image = {
+                imageUrl:user.imageUrl,
+                imageId:user.imageId,
+            }
+    
+            if(hasFileToUpdate){
+    
+                const uploadedFile= await uploadFile(user.file[0])
+                if(!uploadedFile)throw Error;
+         
+                const fileUrl = getFilePreview(uploadedFile.$id);
+                if(!fileUrl){
+                 await deleteFile(uploadedFile.$id);
+                 throw Error;
+             }
+             image = {...image,imageUrl:fileUrl,imageId:uploadedFile.$id}
+    
+            }
+
+            const updatedUser= await databases.updateDocument(
+                appWriteConfig.databaseId,
+                appWriteConfig.usersCollectionId,
+                user.userId,
+                {
+                    name:user.name,
+                    bio:user.bio,
+                    imageUrl: image.imageUrl,
+                    imageId: image.imageId,
+                    username: user.username
+                  
+                }
+            )
+
+            if(!updatedUser) throw Error;
+
+            console.log("User is updated successfully",updatedUser);
+            
+            return updatedUser;
+            
+    
+     
+        
+    } catch (error) {
+        console.log(error);
+        
+    }
+    }
+
 

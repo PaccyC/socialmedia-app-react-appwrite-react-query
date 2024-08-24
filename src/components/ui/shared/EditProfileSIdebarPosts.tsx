@@ -1,4 +1,5 @@
 import { Models } from "appwrite"
+import { Link } from "react-router-dom"
 
 
 interface EditProfileSidebarProps{
@@ -8,10 +9,13 @@ interface EditProfileSidebarProps{
 const EditProfileSidebarPosts = ({posts}:EditProfileSidebarProps) => {
  
     
+  
   return (
     <div className=" grid grid-cols-1 gap-4">
         {posts?.map((post:Models.Document)=>(
-
+     
+     <Link to={`/posts/${post.$id}`} key={post.$id}>
+    
       <div className=" relative min-w-[330px] h-[315px] bg-slate-600 text-black rounded-2xl ">
       <img 
         src={post.image} 
@@ -25,7 +29,9 @@ const EditProfileSidebarPosts = ({posts}:EditProfileSidebarProps) => {
         width={24}
         />
       </div>
+
       </div>
+      </Link>  
          ))}
 
       

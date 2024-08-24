@@ -1,7 +1,12 @@
 import EditProfileForm from "../../components/forms/EditProfileForm"
 import EditProfileSidebar from "../../components/ui/shared/EditProfileSidebar"
+import { useGetCurrentUser } from "../../lib/react-query/queriesAndMutations";
 
 const UpdateProfile = () => {
+
+  const {data:user}= useGetCurrentUser();
+  console.log(user);
+  
   return (
     <div className=" flex flex-1 ">
       <div className="flex flex-col flex-1 items-center gap-10 py-10 px-5 md:px-8 lg:p-14 ">
@@ -16,22 +21,11 @@ const UpdateProfile = () => {
                 />
                 <h2 className=" h3-bold md:h2-bold text-left w-full">Edit Profile</h2>
             </div>
-            
-        {/* Profile image */}
-
-         <div className=" flex gap-3 items-center">
-          <img 
-              src="/assets/images/profile.png" 
-              alt="profile"
-              width={100}
-              height={100}
-          />
-          <p className=" text-[#0095F6] font-semibold text-[18px]">Change profile photo</p>
-        </div>
           </div>
           </div>
+          
         {/* Edit Profile Form */}
-          <EditProfileForm/>
+          <EditProfileForm user={user}/>
         </div>
         <EditProfileSidebar/>
 

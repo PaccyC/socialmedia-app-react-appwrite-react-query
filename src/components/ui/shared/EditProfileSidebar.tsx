@@ -1,12 +1,12 @@
 import { useUserContext } from "../../../context/AuthContext"
-import { useGetUserPosts } from "../../../lib/react-query/queriesAndMutations"
+import {useGetUserTopPosts } from "../../../lib/react-query/queriesAndMutations"
 import EditProfileSidebarPosts from "./EditProfileSIdebarPosts"
+import Loader from "./Loader";
 
 const EditProfileSidebar = () => {
 
   const {user}=useUserContext();
-  const {data:posts}= useGetUserPosts(user.id);
-  console.log(posts);
+  const {data:posts,isLoading:isPostsLoading}= useGetUserTopPosts(user.id);
   
   return (
   <div className=" min-w-[420px] h-full border-l-2 border-dark-4  justify-center py-8  px-12">
@@ -28,7 +28,12 @@ const EditProfileSidebar = () => {
         <h3 className="font-semibold text-[24px] self-start">Top posts by you</h3>
 
         {/* Posts */}
-        <EditProfileSidebarPosts posts={posts?.documents}/>
+        {isPostsLoading ? (
+          <div className=" mt-6">
+          <Loader/>
+          </div>
+        ):<EditProfileSidebarPosts posts={posts}/>}
+        
        </div>
       </div>
     </div>

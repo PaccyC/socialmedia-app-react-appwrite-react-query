@@ -3,8 +3,8 @@ import {
     useMutation,
   useQueryClient,
 useInfiniteQuery } from '@tanstack/react-query';
-import {createPost, createUserAccount, deletePost, deleteSavedPost, editPost, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserPosts, getUserProfile, getUsers, likePost, savePost, searchPosts, signInUser,signOutAccount } from '../appwrite/api';
-import { NewPost, NewUser, UpdatePost } from '../../types';
+import {createPost, createUserAccount, deletePost, deleteSavedPost, editPost, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserPosts, getUserProfile, getUsers, getUsersTopPosts, likePost, savePost, searchPosts, signInUser,signOutAccount, updateUser } from '../appwrite/api';
+import { NewPost, NewUser, UpdatePost, UpdateUser } from '../../types';
 import { QUERY_KEYS } from './queryKey';
 
 
@@ -221,4 +221,27 @@ export const useGetUserProfile =(userId:string)=>{
             queryFn:()=>getUserProfile(userId)
         }
     )
+}
+
+export const useGetUserTopPosts =(userId:string)=>{
+    return useQuery({
+        queryKey:[QUERY_KEYS.GET_USER_TOP_POSTS,userId],
+        queryFn:()=>getUsersTopPosts(userId),
+        enabled:!!userId
+    })
+}
+
+export const useUpdateUser= ()=>{
+    const queryClient= useQueryClient();
+    return useMutation({
+        mutationFn:(user:UpdateUser) => updateUser(user),
+        onSuccess:()=>{
+            queryClient.invalidateQueries({
+                queryKey:[QUERY_KEYS.GET_USER_BY_ID]
+            })
+            queryClient.invalidateQueries({
+                queryKey:[QUERY_KEYS.GET_CURRENT_USER]
+            })
+        }
+    })
 }

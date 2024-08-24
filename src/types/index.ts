@@ -60,3 +60,14 @@ export type UserProfileResponse={
     bio: string;
     imageUrl:string;
 }
+
+export type UpdateUser = {
+    userId: string;
+    name: string;
+    bio: string;
+    imageId: string;
+    imageUrl: URL | string;
+    file: File[];
+    username:string;
+  };
+  
