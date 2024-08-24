@@ -10,7 +10,7 @@ const Profile = () => {
 
   const {user}= useUserContext();
   const{data:currentUser}= useGetCurrentUser();
-  const {data:posts}= useGetUserPosts(user.id);
+  const {data:posts}= useGetUserPosts(user.id, "posts");
 
   
   return (
@@ -136,7 +136,7 @@ const Profile = () => {
         {/* Tabs for the Posts,reels,and tagged */}
         
 
-        <ProfileTabs posts={posts}/>
+        <ProfileTabs userId={user.id}/>
      
       </div>
     </div>

@@ -5,7 +5,6 @@ import { useGetCurrentUser } from "../../lib/react-query/queriesAndMutations";
 const UpdateProfile = () => {
 
   const {data:user}= useGetCurrentUser();
-  
   console.log(user);
   
   return (
@@ -17,14 +16,13 @@ const UpdateProfile = () => {
               <img 
                 src="/assets/icons/edit-white.svg" 
                 alt="edit-profile"
-                width={36}
                 height={36}
                 />
                 <h2 className=" h3-bold md:h2-bold text-left w-full">Edit Profile</h2>
             </div>
           </div>
           </div>
-
+          
         {/* Edit Profile Form */}
           <EditProfileForm user={user}/>
         </div>

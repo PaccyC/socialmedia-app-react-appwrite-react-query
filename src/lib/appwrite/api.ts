@@ -433,7 +433,7 @@ export async function getUsers(){
     }
 }
 
-export async function getUserPosts(userId:string){
+export async function getUserPosts(userId:string,type:string){
 
     try {
         

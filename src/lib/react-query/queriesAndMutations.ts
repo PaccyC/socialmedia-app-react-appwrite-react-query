@@ -200,7 +200,7 @@ export const useGetUsers =()=>{
 }
 
 
-export const useGetUserPosts= (userId:string)=>{
+export const useGetUserPosts= (userId:string,type:string)=>{
 
     return useQuery(
         {
