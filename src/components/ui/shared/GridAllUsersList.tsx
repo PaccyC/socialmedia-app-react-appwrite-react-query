@@ -5,12 +5,12 @@ import { Button } from "../button"
 
 interface GridAllUsersListProps{
 
-    users: any
+    users?: Models.Document[]
 }
 const GridAllUsersList = ({users}:GridAllUsersListProps) => {
   return (
-    <div className="gap-7 grid grid-cols-3">
-        {users.documents.map((user:Models.Document)=>(
+    <div className=" gap-7 grid grid-cols-3">
+        {users?.map((user:Models.Document)=>(
         <Link to={`/profile/${user.$id}`} className=" min-w-[303px] h-[319px] rounded-2xl border  border-[3px]  border-dark-4 cursor-pointer">
           <div className=" flex flex-col items-center py-12 px-6">
             <img 
