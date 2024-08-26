@@ -29,7 +29,7 @@ const Saved = () => {
         
 
           <div className="flex flex-col w-full max-w-5xl">
-   <ProfileTabs userId={user.id}/>
+   <ProfileTabs userId={user.id} />
     </div>
 
 
