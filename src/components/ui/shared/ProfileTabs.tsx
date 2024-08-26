@@ -1,9 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../card";
-import { Button } from "../button";
+
 
 import { useState } from "react";
 import { useGetUserPosts } from "../../../lib/react-query/queriesAndMutations";
+import Loader from "./Loader";
 
 interface ProfileTabsProps {
   userId: string;
@@ -21,9 +21,10 @@ const ProfileTabs = ({ userId }: ProfileTabsProps) => {
         {/* Tabs */}
         <Tabs
           defaultValue="posts"
-          className="w-[400px]"
+          className="w-full"
           onValueChange={(value) => setActiveTab(value)}
         >
+          <div className=" flex flex-between w-full">
           <TabsList className="grid grid-cols-3 bg-dark-2">
             <TabsTrigger value="posts" className="bg-dark-3">
               <img
@@ -56,25 +57,44 @@ const ProfileTabs = ({ userId }: ProfileTabsProps) => {
               Tagged
             </TabsTrigger>
           </TabsList>
+          <div className="flex items-center gap-3 bg-dark-3 rounded-xl px-4 py-2 cursor-pointer">
+          <p className="small-medium lg:base-medium text-light-2">All</p>
+          <img
+            src="/assets/icons/filter.svg"
+            alt="filter"
+            height={20}
+            width={20}
+          />
+        </div>
+          </div>
           <TabsContent value="posts">
             <div>
               {isLoading ? (
-                <p>Loading...</p>
+              <Loader/>
               ) : (
                 posts?.documents.map((post: any, index: number) => (
-                  <div key={index} className="mb-4">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>{post.title}</CardTitle>
-                        <CardDescription>{post.description}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <img src={post.image} alt={post.caption} />
-                      </CardContent>
-                      <CardFooter>
-                       
-                      </CardFooter>
-                    </Card>
+                  <div key={index} className="mb-4 ">
+                   
+                   <div className=" relative w-[330px]">
+
+                        <img 
+                        src={post.image} 
+                        alt={post.caption}
+                        width={330}
+                        height={315}
+                        className=" rounded-2xl object-cover"
+                         />
+                      <div className=" absolute top-0 right-0 p-5 cursor-pointer">
+                              <img 
+                              src="/assets/icons/carousel.svg" 
+                              alt="carousel"
+                              height={24}
+                              width={24}
+                              />
+                        </div>
+                   </div>
+
+                   
                   </div>
                 ))
               )}
@@ -93,15 +113,7 @@ const ProfileTabs = ({ userId }: ProfileTabsProps) => {
             </div>
           </TabsContent>
         </Tabs>
-        <div className="flex items-center gap-3 bg-dark-3 rounded-xl px-4 py-2 cursor-pointer h-[40px]">
-          <p className="small-medium lg:base-medium text-light-2">All</p>
-          <img
-            src="/assets/icons/filter.svg"
-            alt="filter"
-            height={20}
-            width={20}
-          />
-        </div>
+        
       </div>
     </div>
   );

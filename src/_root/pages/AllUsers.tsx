@@ -14,6 +14,7 @@ const AllUsers = () => {
           <div className=" flex flex-col gap-8">
             <div className=" flex gap-3">
               <img 
+              className="invert brightness-0 transition"
               src="/assets/icons/people.svg" 
               alt="people"
               width={36}
